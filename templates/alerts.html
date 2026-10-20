@@ -1,0 +1,1 @@
+{% for alert in alerts %}<div class="alert-row"><span class="alert-dot"></span><div><strong>{{ alert.message }}</strong><small>{{ alert.booking.reference }} · {{ alert.created_at|date:'d M, H:i' }}</small></div></div>{% empty %}<p class="muted">You’re all caught up. New booking and payment alerts will appear here.</p>{% endfor %}

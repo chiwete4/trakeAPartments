@@ -1,0 +1,5 @@
+from django.contrib import admin
+from django.contrib.auth import views as auth
+from django.urls import path
+from stays import views as v
+urlpatterns=[path('',v.home,name='home'),path('apartments/',v.explore,name='explore'),path('apartments/<slug:slug>/',v.detail,name='detail'),path('book/',v.book,name='book'),path('booking/<str:token>/',v.summary,name='summary'),path('booking/<str:token>/checkout/',v.checkout,name='checkout'),path('booking/<str:token>/demo/',v.demo_complete,name='demo_complete'),path('payments/callback/',v.callback,name='callback'),path('payments/webhook/',v.webhook,name='webhook'),path('staff/login/',auth.LoginView.as_view(),name='login'),path('staff/logout/',auth.LogoutView.as_view(),name='logout'),path('dashboard/',v.dashboard,name='dashboard'),path('dashboard/owner/',v.owner,name='owner'),path('dashboard/manager/',v.manager,name='manager'),path('dashboard/booking/<int:pk>/decision/',v.decision,name='decision'),path('admin/',admin.site.urls),path('health/',v.health)]
