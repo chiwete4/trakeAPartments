@@ -73,3 +73,8 @@ input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px #102e4c0d}
  .button:hover,.button:active,.gallery-photo:hover img,.card-image:hover img{transform:none}
 }
 @media print{.motion-pending{opacity:1;transform:none}}
+
+/* Shared contact details, including narrow mobile screens. */
+.contact-details{display:flex;flex-direction:column;gap:8px;font-style:normal;margin:0 0 28px;font-size:14px;overflow-wrap:anywhere}
+.contact-details a{width:fit-content;text-underline-offset:4px}
+.contact-details a:hover{text-decoration:underline}
