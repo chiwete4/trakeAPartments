@@ -15,11 +15,10 @@ from .forms import BookingForm
 from .services import create_booking,review_booking,prepare_payment,paystack,apply_payment,BookingError
 
 def home(request):
-    outdoor=request.GET.get('hero')!='lounge'
     return render(request,'home.html',{
         'apartments':ApartmentType.objects.filter(is_active=True),
-        'hero_image':'images/property/compound.webp' if outdoor else 'images/apartments/two-bed-02.webp',
-        'hero_alt':'The Trake Apartments by Orleans compound at dusk' if outdoor else 'Two-bedroom apartment lounge and open kitchen at Trake Apartments by Orleans',
+        'hero_image':'images/property/compound.webp',
+        'hero_alt':'The Trake Apartments by Orleans compound at dusk',
     })
 def explore(request): return render(request,'explore.html',{'apartments':ApartmentType.objects.filter(is_active=True)})
 def detail(request,slug): return render(request,'detail.html',{'apartment':get_object_or_404(ApartmentType,slug=slug,is_active=True)})
