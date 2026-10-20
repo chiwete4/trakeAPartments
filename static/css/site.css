@@ -28,3 +28,11 @@ footer.site-footer .footer-bottom small{display:inline;margin:0;font-size:10px;c
 @media(prefers-reduced-motion:reduce){.card-image img{transition:none}}
 .property-arrival{display:grid;grid-template-columns:1.2fr 1fr;background:#f5f5f0}.arrival-photo{min-width:0}.arrival-photo img{width:100%;height:100%;max-height:580px;object-fit:cover;aspect-ratio:4/3}.arrival-copy{padding:60px 12%;align-self:center}.arrival-copy p{font-size:14px;color:var(--muted);max-width:340px;margin-bottom:30px}.property-corners-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}.property-corners-grid figure{margin:0}.property-corners-grid img{width:100%;aspect-ratio:4/3;object-fit:cover}.property-corners-grid figcaption{font-family:Georgia,serif;font-size:24px;padding-top:15px}
 @media(max-width:700px){.property-arrival{grid-template-columns:1fr}.arrival-copy{padding:40px 7%}.arrival-photo img{height:auto;max-height:none}.property-corners-grid{grid-template-columns:1fr;gap:30px}.property-corners-grid figcaption{font-size:22px}}
+
+/* Homepage hero cleanup: exterior by default and a clearer primary action. */
+.hero .hero-cta{min-height:62px;min-width:280px;padding:19px 27px;background:#c3a36a;border-color:#b28e50;color:#102e4c;font-size:15px;font-weight:600;box-shadow:0 7px 18px rgba(138,104,48,.16);transition:background .18s ease,box-shadow .18s ease}
+.hero .hero-cta:hover{background:#d1b37d;box-shadow:0 9px 23px rgba(138,104,48,.22)}
+.hero .hero-cta:focus-visible{outline:3px solid #102e4c;outline-offset:5px}
+.hero-note{justify-content:flex-start}.hero-note span:first-child{color:var(--ink)}
+@media(max-width:700px){.hero .hero-cta{width:100%;max-width:330px;min-width:0;min-height:60px;padding:18px 23px}}
+@media(prefers-reduced-motion:reduce){.hero .hero-cta{transition:none}}

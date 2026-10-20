@@ -17,7 +17,7 @@
     <a class="button small" href="{% url 'book' %}">Book your stay <span aria-hidden="true">↗</span></a>
   </nav>
 </header>
-{% if demo_payments %}<div class="demo-banner">DEMONSTRATION · Provisional names and rates. Checkout is simulated. No money is charged.</div>{% endif %}
+{% block demo_notice %}{% if demo_payments %}<div class="demo-banner">DEMONSTRATION · Provisional names and rates. Checkout is simulated. No money is charged.</div>{% endif %}{% endblock %}
 {% if messages %}<div class="messages" role="status">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}
 <main>{% block content %}{% endblock %}</main>
 <footer class="site-footer">

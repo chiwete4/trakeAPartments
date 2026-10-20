@@ -71,4 +71,4 @@ The main home image is the two-bedroom lounge; the outdoor compound photo has it
 
 Photo edit brief: modest exposure/shadow and colour correction, restrained clarity/sharpness, preserve the real room layout, furnishings, fixtures and materials. Built-in image editing was used; no virtual staging was requested. WebP versions under `static/images/apartments/` and `static/images/property/` are optimized site assets.
 
-Compare the homepage hero photos at `/?hero=outdoor` and `/?hero=lounge`. Only the hero changes; the layout remains the same. The existing lounge default stays in place until a final image is chosen.
+Compare the homepage hero photos at `/?hero=outdoor` and `/?hero=lounge`. Only the hero changes; the layout remains the same. The outdoor compound photo is now the homepage default; the lounge comparison remains available.
