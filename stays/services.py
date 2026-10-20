@@ -13,15 +13,11 @@ from .models import ApartmentType, Unit, Booking, Payment, Alert, Decision
 logger=logging.getLogger(__name__)
 class BookingError(ValueError): pass
 
-def alert(booking,message):
+def alert(booking,message,*,demo=None):
+    from .notifications import queue_emails
+    if demo is None: demo=settings.DEMO_PAYMENTS
     Alert.objects.create(booking=booking,message=message)
-    def email_alert():
-        if settings.BUSINESS_ALERT_EMAILS:
-            try:
-                send_mail('Trake: '+message, f'{booking.reference}\n{booking.guest_name}\n{booking.check_in} to {booking.check_out}\n{message}',settings.DEFAULT_FROM_EMAIL,settings.BUSINESS_ALERT_EMAILS)
-            except Exception:
-                logger.exception('Business email failed; dashboard alert retained')
-    transaction.on_commit(email_alert)
+    queue_emails(booking,message,demo=demo)
 
 def available_unit(apartment_type,start,end,exclude=None):
     occupied=Booking.objects.filter(check_in__lt=end,check_out__gt=start).filter(Q(status='CONFIRMED')|Q(status='PENDING',hold_until__gt=timezone.now()))
@@ -112,5 +108,5 @@ def apply_payment(reference,data,*,demo=False):
         b.unit=None
         b.status='PAID_REVIEW'
     b.save()
-    alert(b,('DEMO · ' if demo else '')+'Payment verified: '+b.get_status_display())
+    alert(b,('DEMO · ' if demo else '')+'Payment verified: '+b.get_status_display(),demo=demo)
     return b

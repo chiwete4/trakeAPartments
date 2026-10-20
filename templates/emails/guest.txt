@@ -1,0 +1,18 @@
+{% if demo %}DEMONSTRATION ONLY: no real payment has been charged.
+
+{% endif %}Hello {{ booking.guest_name }},
+
+{{ explanation }}
+
+Booking reference: {{ booking.reference }}
+Apartment: {{ booking.apartment_type.name }}
+Arrival: {{ booking.check_in|date:'d M Y' }}
+Departure: {{ booking.check_out|date:'d M Y' }}
+Guests: {{ booking.guests }}
+Accommodation total: NGN {{ booking.total }}
+Status: {{ booking.get_status_display }}
+{% if booking.status == 'PENDING' %}Payment hold ends: {{ booking.hold_until|date:'d M Y, H:i' }} (Lagos time).
+{% endif %}
+Please quote your booking reference when contacting us.
+
+Trake Apartments by Orleans

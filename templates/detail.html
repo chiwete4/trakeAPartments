@@ -4,7 +4,7 @@
 <section class="section detail">
   <a class="back-link" href="{% url 'explore' %}">← All apartments</a>
   <div class="detail-grid">
-    <div class="detail-photo"><img id="apartment-main-photo" src="{% static apartment.image %}" alt="{{ apartment.name }} living area" width="1080" height="810" fetchpriority="high"><small id="photo-caption">{{ apartment.name }} · Living area</small></div>
+    <div class="detail-photo"><img id="apartment-main-photo" src="{% static apartment.image %}" alt="{{ apartment.gallery.0.alt|default:apartment.name }}" width="1080" height="810" fetchpriority="high"><small id="photo-caption">{{ apartment.gallery.0.alt|default:apartment.name }}</small></div>
     <div>
       <div class="eyebrow">YOUR OWN LITTLE CORNER</div>
       <h1>{{ apartment.name }}</h1><p>{{ apartment.description }}</p>

@@ -1,0 +1,18 @@
+{% if demo %}DEMONSTRATION ONLY: no real payment has been charged.
+
+{% endif %}{{ message }}
+
+Reference: {{ booking.reference }}
+Guest: {{ booking.guest_name }}
+Email: {{ booking.email }}
+Phone: {{ booking.phone }}
+Apartment: {{ booking.apartment_type.name }}
+Arrival: {{ booking.check_in|date:'d M Y' }}
+Departure: {{ booking.check_out|date:'d M Y' }}
+Guests: {{ booking.guests }}
+Accommodation total: NGN {{ booking.total }}
+Status: {{ booking.get_status_display }}
+
+{% if booking.status == 'REVIEW' or booking.status == 'PAID_REVIEW' %}Action needed: review availability in Bookings & operations. Resolve the clash before approving the stay.{% elif booking.status == 'CONFIRMED' %}Payment verified and apartment reserved. View this booking in your dashboard.{% elif booking.status == 'PENDING' %}Awaiting payment. The stay is not yet confirmed.{% else %}The booking request has been declined.{% endif %}
+
+Trake Apartments by Orleans

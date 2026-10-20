@@ -72,3 +72,9 @@ The main home image is the two-bedroom lounge; the outdoor compound photo has it
 Photo edit brief: modest exposure/shadow and colour correction, restrained clarity/sharpness, preserve the real room layout, furnishings, fixtures and materials. Built-in image editing was used; no virtual staging was requested. WebP versions under `static/images/apartments/` and `static/images/property/` are optimized site assets.
 
 The outdoor compound photo is the homepage hero. Earlier comparison query parameters no longer change the image.
+
+### Booking notification drafts
+
+Guest and business email templates live in `templates/emails/`. They cover awaiting payment, availability review, confirmed payment, paid availability review and declined requests. Emails run after the booking transaction commits; failed email delivery leaves the dashboard alert intact. Repeated verified-payment callbacks do not resend confirmation messages. Demo messages explicitly say that no real payment was charged.
+
+Dashboard alerts are independent of Paystack. Paystack verification triggers the payment-confirmation event. The default console backend previews messages without sending email. Configure SMTP and `BUSINESS_ALERT_EMAILS` for actual delivery. A delivery retry queue remains future work.

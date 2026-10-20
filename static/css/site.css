@@ -47,3 +47,29 @@ footer.site-footer .footer-bottom small{display:inline;margin:0;font-size:10px;c
 .hero-art{min-height:0;height:auto;aspect-ratio:auto;align-self:center;background:var(--paper)}
 .hero-art>img{position:static;inset:auto;display:block;width:100%;height:auto;object-fit:contain;object-position:center;aspect-ratio:auto}
 .arrival-photo img{height:auto;max-height:none;object-fit:contain;aspect-ratio:auto}
+
+/* Subtle motion, with no shifts to the page layout. */
+@keyframes trake-arrive{from{opacity:.25;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.hero-copy>h1,.page-heading>h1,.dash-heading h1{animation:trake-arrive .55s ease-out both}
+.hero-copy>p{animation:trake-arrive .55s .08s ease-out both}
+.hero-art{animation:trake-arrive .65s .05s ease-out both}
+.motion-reveal{transition:opacity .5s ease var(--motion-delay,0ms),transform .5s ease var(--motion-delay,0ms)}
+.motion-pending{opacity:0;transform:translateY(15px)}
+.button{transition:background .2s ease,box-shadow .2s ease,transform .2s ease}
+.button:active{transform:translateY(1px)}
+.button>span,.directions-link>span,.footer-links a>span{display:inline-block;transition:transform .2s ease}
+input,select,textarea{transition:border-color .18s ease,box-shadow .18s ease}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px #102e4c0d}
+@media(hover:hover){
+ .button:hover{transform:translateY(-2px);box-shadow:0 5px 12px #102e4c18}
+ .button:hover>span,.directions-link:hover>span,.footer-links a:hover>span{transform:translate(2px,-2px)}
+ .gallery-photo img{transition:transform .35s ease}
+ .gallery-photo:hover img{transform:scale(1.025)}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-copy>h1,.hero-copy>p,.hero-art,.page-heading>h1,.dash-heading h1{animation:none}
+ .motion-reveal,.button,.button>span,.directions-link>span,.footer-links a>span,input,select,textarea,.gallery-photo img,.card-image img{transition:none!important}
+ .motion-pending{opacity:1;transform:none}
+ .button:hover,.button:active,.gallery-photo:hover img,.card-image:hover img{transform:none}
+}
+@media print{.motion-pending{opacity:1;transform:none}}

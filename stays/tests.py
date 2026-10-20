@@ -80,3 +80,39 @@ class BookingTests(TestCase):
         with self.assertRaises(BookingError):create_booking(self.data)
         self.data['check_out']+=timedelta(days=1);self.data['guests']=3
         with self.assertRaises(BookingError):create_booking(self.data)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',BUSINESS_ALERT_EMAILS=['owner@example.com'],DEMO_PAYMENTS=False)
+    def test_notifications_follow_verified_state_and_do_not_repeat(self):
+        from django.core import mail
+        with self.captureOnCommitCallbacks(execute=True):
+            b=create_booking(self.data)
+        self.assertEqual(len(mail.outbox),2)
+        self.assertIn('confirmed only after payment',mail.outbox[0].body)
+        p=prepare_payment(b)
+        with self.captureOnCommitCallbacks(execute=True):
+            apply_payment(p.reference,self.verified_data(p))
+        self.assertEqual(len(mail.outbox),4)
+        self.assertIn('Your booking is confirmed',mail.outbox[2].subject)
+        with self.captureOnCommitCallbacks(execute=True):
+            apply_payment(p.reference,self.verified_data(p))
+        self.assertEqual(len(mail.outbox),4)
+
+    @override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend',BUSINESS_ALERT_EMAILS=['owner@example.com'],DEMO_PAYMENTS=True)
+    def test_conflict_emails_do_not_claim_confirmation_or_payment(self):
+        from django.core import mail
+        create_booking(self.data)
+        with self.captureOnCommitCallbacks(execute=True):
+            create_booking(self.data)
+        self.assertEqual(len(mail.outbox),2)
+        self.assertIn('No payment has been taken',mail.outbox[0].body)
+        self.assertIn('[DEMO]',mail.outbox[0].subject)
+        self.assertIn('Action needed',mail.outbox[1].body)
+
+    @override_settings(BUSINESS_ALERT_EMAILS=['owner@example.com'])
+    def test_mail_failure_preserves_booking_and_dashboard_alert(self):
+        with patch('stays.notifications.send_mail',side_effect=RuntimeError('Test delivery failure')):
+            with self.assertLogs('stays.notifications',level='ERROR'):
+                with self.captureOnCommitCallbacks(execute=True):
+                    b=create_booking(self.data)
+        self.assertTrue(Booking.objects.filter(pk=b.pk).exists())
+        self.assertTrue(Alert.objects.filter(booking=b).exists())
