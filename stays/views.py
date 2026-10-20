@@ -14,9 +14,16 @@ from .models import ApartmentType,Booking,Payment,Alert
 from .forms import BookingForm
 from .services import create_booking,review_booking,prepare_payment,paystack,apply_payment,BookingError
 
-def home(request): return render(request,'home.html',{'apartments':ApartmentType.objects.all()})
-def explore(request): return render(request,'explore.html',{'apartments':ApartmentType.objects.all()})
-def detail(request,slug): return render(request,'detail.html',{'apartment':get_object_or_404(ApartmentType,slug=slug)})
+def home(request):
+    outdoor=request.GET.get('hero')=='outdoor'
+    return render(request,'home.html',{
+        'apartments':ApartmentType.objects.filter(is_active=True),
+        'hero_image':'images/property/compound.webp' if outdoor else 'images/apartments/two-bed-02.webp',
+        'hero_alt':'The Trake Apartments by Orleans compound at dusk' if outdoor else 'Two-bedroom apartment lounge and open kitchen at Trake Apartments by Orleans',
+        'hero_label':'WELCOME TO TRAKE' if outdoor else 'THE TWO-BEDROOM APARTMENT',
+    })
+def explore(request): return render(request,'explore.html',{'apartments':ApartmentType.objects.filter(is_active=True)})
+def detail(request,slug): return render(request,'detail.html',{'apartment':get_object_or_404(ApartmentType,slug=slug,is_active=True)})
 def book(request):
     form=BookingForm(request.POST or None,initial={'apartment_type':request.GET.get('apartment'),'check_in':request.GET.get('check_in'),'check_out':request.GET.get('check_out')})
     if request.method=='POST' and form.is_valid():
@@ -24,7 +31,7 @@ def book(request):
             b=create_booking(form.cleaned_data)
             return redirect('summary',token=b.access_token)
         except BookingError as exc: form.add_error(None,str(exc))
-    return render(request,'book.html',{'form':form,'apartments':ApartmentType.objects.all()})
+    return render(request,'book.html',{'form':form,'apartments':ApartmentType.objects.filter(is_active=True)})
 def summary(request,token):
     b=get_object_or_404(Booking,access_token=token)
     return render(request,'summary.html',{'booking':b,'hold_active':b.hold_until and b.hold_until>timezone.now()})
@@ -91,8 +98,8 @@ def owner(request):
     paid=Payment.objects.filter(verified=True)
     revenue=paid.filter(verified_at__date__gte=month).aggregate(total=Sum('amount'))['total'] or 0
     from .models import Unit
-    occupied=confirmed.filter(check_in__lte=today,check_out__gt=today).count()
-    units=Unit.objects.filter(active=True).count()
+    occupied=confirmed.filter(check_in__lte=today,check_out__gt=today,unit__active=True,apartment_type__is_active=True).count()
+    units=Unit.objects.filter(active=True,apartment_type__is_active=True).count()
     sales=paid.values('booking__apartment_type__name').annotate(amount=Sum('amount'),count=Count('id')).order_by('-amount')
     for row in sales: row['naira']=row['amount']//100
     return render(request,'owner.html',{'revenue':revenue//100,'occupied':occupied,'units':units,'occupancy':round(occupied/units*100) if units else 0,'upcoming':confirmed.filter(check_out__gt=today).order_by('check_in')[:8],'review_count':Booking.objects.filter(status__in=['REVIEW','PAID_REVIEW']).count(),'sales':sales,'alerts':Alert.objects.select_related('booking')[:5]})

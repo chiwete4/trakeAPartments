@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import ApartmentType,Unit,Booking,Payment,Alert,Decision
-admin.site.site_header='Trake administration'
+admin.site.site_header='Trake Apartments by Orleans'
 admin.site.register([ApartmentType,Unit])
 @admin.register(Booking,Payment,Alert,Decision)
 class ReadOnlyRecords(admin.ModelAdmin):

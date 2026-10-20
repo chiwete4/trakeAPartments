@@ -1,1 +1,29 @@
-{% extends 'base.html' %}{% load static humanize %}{% block content %}<section class="section detail"><a class="back-link" href="{% url 'explore' %}">← All apartments</a><div class="detail-grid"><div class="detail-photo"><img src="{% static apartment.image %}" alt="Illustrative apartment placeholder"><small>Illustrative placeholder. Actual apartment photos coming soon.</small></div><div><div class="eyebrow">YOUR OWN LITTLE CORNER</div><h1>{{ apartment.name }}</h1><p>{{ apartment.description }}</p><div class="features"><span>{{ apartment.bedrooms }} bedroom{{ apartment.bedrooms|pluralize }}</span><span>Up to {{ apartment.max_guests }} guests</span><span>Living area</span><span>Kitchen</span></div><h2>₦{{ apartment.nightly_rate|intcomma }} <small>/ night</small></h2><p class="muted">Demo rate. Final facilities and policies will be confirmed by the property.</p><a class="button" href="{% url 'book' %}?apartment={{ apartment.pk }}">Choose your dates ↗</a></div></div></section>{% endblock %}
+{% extends 'base.html' %}{% load static humanize %}
+{% block title %}{{ apartment.name }} · Trake Apartments by Orleans{% endblock %}
+{% block content %}
+<section class="section detail">
+  <a class="back-link" href="{% url 'explore' %}">← All apartments</a>
+  <div class="detail-grid">
+    <div class="detail-photo"><img id="apartment-main-photo" src="{% static apartment.image %}" alt="{{ apartment.name }} living area" width="1080" height="810" fetchpriority="high"><small id="photo-caption">{{ apartment.name }} · Living area</small></div>
+    <div>
+      <div class="eyebrow">YOUR OWN LITTLE CORNER</div>
+      <h1>{{ apartment.name }}</h1><p>{{ apartment.description }}</p>
+      <div class="features"><span>{{ apartment.bedrooms }} bedroom{{ apartment.bedrooms|pluralize }}</span><span>Up to {{ apartment.max_guests }} guests</span><span>Living area</span>{% if apartment.slug != 'one-bedroom-large' %}<span>Kitchen</span>{% else %}<span>Private bathroom</span>{% endif %}</div>
+      <h2>₦{{ apartment.nightly_rate|intcomma }} <small>/ night</small></h2>
+      <p class="muted">Provisional apartment name and nightly rate.</p>
+      <a class="button" href="{% url 'book' %}?apartment={{ apartment.pk }}">Choose your dates ↗</a>
+    </div>
+  </div>
+  {% if apartment.gallery %}
+  <div class="gallery-heading"><h2>A closer look.</h2><p>Explore the spaces in this apartment.</p></div>
+  <div class="photo-gallery" aria-label="{{ apartment.name }} photo gallery">
+    {% for photo in apartment.gallery %}
+    <button class="gallery-photo" type="button" data-full="{% static photo.path %}" data-caption="{{ photo.alt }}" aria-label="View {{ photo.alt }}" aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+      <img src="{% static photo.path %}" alt="{{ photo.alt }}" loading="lazy" width="1080" height="810"><span>{{ photo.alt }}</span>
+    </button>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
+<script src="{% static 'js/gallery.js' %}" defer></script>
+{% endblock %}

@@ -46,5 +46,5 @@ EMAIL_PORT=int(os.getenv('EMAIL_PORT','587'))
 EMAIL_HOST_USER=os.getenv('EMAIL_HOST_USER','')
 EMAIL_HOST_PASSWORD=os.getenv('EMAIL_HOST_PASSWORD','')
 EMAIL_USE_TLS=True
-DEFAULT_FROM_EMAIL=os.getenv('DEFAULT_FROM_EMAIL','Trake Apartments <bookings@example.com>')
+DEFAULT_FROM_EMAIL=os.getenv('DEFAULT_FROM_EMAIL','Trake Apartments by Orleans <bookings@example.com>')
 BUSINESS_ALERT_EMAILS=[x.strip() for x in os.getenv('BUSINESS_ALERT_EMAILS','').split(',') if x.strip()]

@@ -31,6 +31,7 @@ def available_unit(apartment_type,start,end,exclude=None):
 @transaction.atomic
 def create_booking(cleaned):
     category=ApartmentType.objects.select_for_update().get(pk=cleaned['apartment_type'].pk)
+    if not category.is_active: raise BookingError('This apartment is no longer available to book.')
     start,end=cleaned['check_in'],cleaned['check_out']
     if start<timezone.localdate() or end<=start: raise BookingError('Please select valid future stay dates.')
     if cleaned['guests']>category.max_guests: raise BookingError('Guest count exceeds this apartment’s capacity.')

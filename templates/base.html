@@ -1,1 +1,44 @@
-{% load static %}<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="description" content="Find your space at Trake Apartments. Explore one and two-bedroom apartments and book your next stay."><title>{% block title %}Trake Apartments · A little more at home{% endblock %}</title><link rel="stylesheet" href="{% static 'css/site.css' %}"></head><body><header class="header"><a class="wordmark" href="{% url 'home' %}">TRAKE<span>APARTMENTS</span></a><nav aria-label="Main navigation"><a href="{% url 'explore' %}">Explore apartments</a>{% if user.is_authenticated %}<a href="{% url 'dashboard' %}">Dashboard</a>{% else %}<a class="staff-link" href="{% url 'login' %}">Staff login</a>{% endif %}<a class="button small" href="{% url 'book' %}">Book your stay <span>↗</span></a></nav></header>{% if demo_payments %}<div class="demo-banner">DEMONSTRATION · Placeholder apartments and rates. Checkout is simulated. No money is charged.</div>{% endif %}{% if messages %}<div class="messages" role="status">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}<main>{% block content %}{% endblock %}</main><footer><a class="wordmark" href="/">TRAKE<span>APARTMENTS</span></a><p>A little more space.<br>A little more at home.</p><div><a href="{% url 'explore' %}">Explore our spaces ↗</a><small>© {% now 'Y' %} Trake Apartments · Demo edition</small></div></footer></body></html>
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Trake Apartments by Orleans. Explore our one and two-bedroom apartments and book your next stay.">
+  <title>{% block title %}Trake Apartments by Orleans · A little more at home{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/site.css' %}">
+</head>
+<body>
+<header class="header">
+  <a class="wordmark" href="{% url 'home' %}" aria-label="Trake Apartments by Orleans home">TRAKE<span>APARTMENTS</span><small>by Orleans</small></a>
+  <nav aria-label="Main navigation">
+    <a href="{% url 'explore' %}">Explore apartments</a>
+    {% if user.is_authenticated %}<a href="{% url 'dashboard' %}">Dashboard</a>{% else %}<a class="staff-link" href="{% url 'login' %}">Staff login</a>{% endif %}
+    <a class="button small" href="{% url 'book' %}">Book your stay <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+{% if demo_payments %}<div class="demo-banner">DEMONSTRATION · Provisional names and rates. Checkout is simulated. No money is charged.</div>{% endif %}
+{% if messages %}<div class="messages" role="status">{% for message in messages %}<p>{{ message }}</p>{% endfor %}</div>{% endif %}
+<main>{% block content %}{% endblock %}</main>
+<footer class="site-footer">
+  <div class="footer-top">
+    <div class="footer-brand">
+      <a class="wordmark" href="{% url 'home' %}" aria-label="Trake Apartments by Orleans home">TRAKE<span>APARTMENTS</span><small>by Orleans</small></a>
+      <p>A little more space.<br>A little more at home.</p>
+    </div>
+    <nav class="footer-links" aria-label="Footer navigation">
+      <h2>Your stay</h2>
+      <a href="{% url 'explore' %}">Explore apartments <span aria-hidden="true">↗</span></a>
+      <a href="{% url 'book' %}">Book your stay <span aria-hidden="true">↗</span></a>
+      <a href="{% url 'login' %}">Staff workspace <span aria-hidden="true">↗</span></a>
+    </nav>
+    <div class="footer-location">
+      <h2>Find us</h2>
+      <p>Trake Apartments by Orleans</p>
+      <a class="directions-link" href="https://maps.app.goo.gl/TU3sFCeXtDW3jnXcA?g_st=ic" target="_blank" rel="noopener noreferrer">Get directions on Google Maps <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  <div class="footer-bottom"><small>© {% now 'Y' %} Trake Apartments by Orleans. All rights reserved.</small><span>One & two-bedroom apartments</span></div>
+</footer>
+</body>
+</html>

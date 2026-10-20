@@ -1,12 +1,12 @@
-# Trake Apartments
+# Trake Apartments by Orleans
 
 A Django booking website with a blue, white and gold interface, a combined manager/reception dashboard, and an owner reporting dashboard. Booking/payment patterns were reviewed against Five Homes; this smaller app has its own allocation and approval rules.
 
 ## Included
 
 - Home, explore, apartment detail, booking, private booking summary.
-- Four editable categories: one-bedroom Classic NGN 90,000; one-bedroom Grand NGN 120,000; two-bedroom Classic NGN 150,000; two-bedroom Grand NGN 200,000 per night.
-- One **placeholder physical apartment per category**. Add the real units before real bookings. Illustrations, categories, capacities and rates are provisional.
+- Four editable categories: 1 Bed Classic NGN 90,000; 1 Bed Large NGN 105,000; 1 Bed Grand NGN 120,000; 2 Bed Apartment NGN 175,000 per night.
+- One **placeholder physical apartment per category**. Add the real units before real bookings. Apartment photos are supplied by the property and lightly polished. Category names, capacities and rates remain provisional.
 - Twenty-minute payment holds; automatic confirmation after verified payment when a physical unit is free.
 - Conflicting requests enter management review before payment. Approvals recheck availability and cannot overbook. Add available inventory in Django admin or agree alternate dates with the guest and create a new request. Editing stay dates and guest self-service cancellation are outside this first demo.
 - Paystack hosted checkout, server verification, signed webhook validation, amount/currency/email/environment checks, fee pass-through support and idempotent fulfilment.
@@ -45,7 +45,7 @@ Fourteen tests cover date/capacity validation, overlapping and adjacent stays, i
 
 ## Hosted demo on Render
 
-1. Upload these source files to `chiwete4/Trake-apartments` (the repository root must contain `manage.py`, `requirements.txt` and `render.yaml`).
+1. Upload these source files to `chiwete4/trakeAPartments` (the repository root must contain `manage.py`, `requirements.txt` and `render.yaml`).
 2. In Render, create a Blueprint from the repository. `render.yaml` declares a Django web service and PostgreSQL database. Review the host's current plan terms before deploying.
 3. Provide `DEMO_OWNER_USERNAME` and a unique `DEMO_OWNER_PASSWORD` of at least 12 characters. The seed command creates that ordinary Owner account once; it does not reset existing passwords. Remove the password environment variable after initial setup if desired.
 4. The blueprint enables simulated payments and generates a Django secret. The Render hostname is automatically allowed.
@@ -62,3 +62,13 @@ Paystack requests are implemented and covered with local data assertions, but no
 ## Before live operation
 
 Replace demo inventory/assets/rates, confirm guest capacities and property policies, use PostgreSQL, configure/test Paystack and email, provision real staff accounts, set the domain/allowed hosts and trusted origins, validate concurrent checkout, and agree cancellation/refund handling. Simulated payment records must be cleared from a dedicated demo database before collecting real payments. Public rate limiting and automated refunds are not included in this initial demo.
+
+## October photography and catalogue update
+
+After pulling this update, run `python manage.py migrate` and `python manage.py collectstatic --no-input`. The data migration refreshes the four public categories/rates and photo galleries. Earlier two-bedroom demo categories are retired from new sales rather than deleting their booking history. Existing bookings retain their rate/total snapshots. Unbooked legacy demo units are deactivated; reserved legacy units remain intact.
+
+The main home image is the two-bedroom lounge; the outdoor compound photo has its own arrival section. The extra generically labelled one-bedroom bedroom/lounge photos are displayed only in the overall property section until their precise category is confirmed. Original uploads remain unchanged.
+
+Photo edit brief: modest exposure/shadow and colour correction, restrained clarity/sharpness, preserve the real room layout, furnishings, fixtures and materials. Built-in image editing was used; no virtual staging was requested. WebP versions under `static/images/apartments/` and `static/images/property/` are optimized site assets.
+
+Compare the homepage hero photos at `/?hero=outdoor` and `/?hero=lounge`. Only the hero changes; the layout remains the same. The existing lounge default stays in place until a final image is chosen.

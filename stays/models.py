@@ -13,6 +13,8 @@ class ApartmentType(models.Model):
     max_guests=models.PositiveSmallIntegerField()
     nightly_rate=models.PositiveIntegerField(help_text='NGN')
     description=models.TextField()
+    is_active=models.BooleanField(default=True)
+    gallery=models.JSONField(default=list,blank=True)
     image=models.CharField(max_length=200,default='images/apartment.svg')
     class Meta:
         ordering=['nightly_rate']

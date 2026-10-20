@@ -2,7 +2,7 @@ from django import forms
 from django.utils import timezone
 from .models import ApartmentType
 class BookingForm(forms.Form):
-    apartment_type=forms.ModelChoiceField(queryset=ApartmentType.objects.all(),label='Apartment')
+    apartment_type=forms.ModelChoiceField(queryset=ApartmentType.objects.filter(is_active=True),label='Apartment')
     check_in=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     check_out=forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
     guests=forms.IntegerField(min_value=1,max_value=8,initial=1)
