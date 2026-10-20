@@ -9,7 +9,7 @@
       <div class="eyebrow">YOUR OWN LITTLE CORNER</div>
       <h1>{{ apartment.name }}</h1><p>{{ apartment.description }}</p>
       <div class="features"><span>{{ apartment.bedrooms }} bedroom{{ apartment.bedrooms|pluralize }}</span><span>Up to {{ apartment.max_guests }} guests</span><span>Living area</span>{% if apartment.slug != 'one-bedroom-large' %}<span>Kitchen</span>{% else %}<span>Private bathroom</span>{% endif %}</div>
-      <h2>₦{{ apartment.nightly_rate|intcomma }} <small>/ night</small></h2>
+      <h2 class="apartment-price"><span class="price-amount">₦{{ apartment.nightly_rate|intcomma }}</span><small class="price-unit">/ night</small></h2>
       <p class="muted">Provisional apartment name and nightly rate.</p>
       <a class="button" href="{% url 'book' %}?apartment={{ apartment.pk }}">Choose your dates ↗</a>
     </div>
